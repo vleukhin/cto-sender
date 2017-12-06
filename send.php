@@ -7,6 +7,8 @@ $dotenv->load();
 
 echo getenv('COLLECTOR_URL');
 
+print_r($POST);
+
 $geo = new \App\Geo([
     'id'      => $_SERVER['REMOTE_ADDR'],
     'charset' => 'utf-8',
