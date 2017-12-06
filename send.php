@@ -5,8 +5,8 @@ require 'vendor/autoload.php';
 $dotenv = new Dotenv\Dotenv('./');
 $dotenv->load();
 
-$sender = new Sender(getenv('COLLECTOR_URL'));
+$lead = new \App\Lead($_POST['data']);
 
-print_r($_POST);
-
-var_dump($geo->get_value(false, false));
+$manager = new \App\LeadsManager();
+$manager->pushSender(new \App\Senders\CollectorSender(getenv('COLLECTOR_HOST')));
+$manager->sendLead($lead);

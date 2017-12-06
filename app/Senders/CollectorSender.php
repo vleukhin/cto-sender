@@ -13,14 +13,43 @@ use App\Lead;
 class CollectorSender implements Sender
 {
     /**
+     * Collector service url
+     *
+     * @var string
+     */
+    protected $host;
+
+    public function __construct($host)
+    {
+        $this->host = $host;
+    }
+
+    /**
      * Отправка лида
      *
      * @param Lead $lead
      *
-     * @return mixed
+     * @return bool
      */
     public function send(Lead $lead)
     {
-        // TODO: Implement send() method.
+        $url = $this->host . '/lead/create';
+
+        $ch = curl_init($url);
+        curl_setopt_array($ch, [
+            CURLOPT_POST           => true,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POSTFIELDS     => $lead->toArray(),
+        ]);
+
+        $result = curl_exec($ch);
+
+        $result = @json_decode($result);
+
+        if (empty($result)) {
+            return false;
+        }
+
+        return $result->success;
     }
 }

@@ -16,7 +16,7 @@ interface Sender
      *
      * @param Lead $lead
      *
-     * @return mixed
+     * @return bool
      */
     public function send(Lead $lead);
 }
