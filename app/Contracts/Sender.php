@@ -19,4 +19,11 @@ interface Sender
      * @return bool
      */
     public function send(Lead $lead);
+
+    /**
+     * Получение имени отправщика
+     *
+     * @return string
+     */
+    public function getName();
 }

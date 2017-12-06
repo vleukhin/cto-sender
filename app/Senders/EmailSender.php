@@ -24,4 +24,14 @@ class EmailSender implements Sender
     {
         // TODO: Implement send() method.
     }
+
+    /**
+     * Получение имени отправщика
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return 'email';
+    }
 }

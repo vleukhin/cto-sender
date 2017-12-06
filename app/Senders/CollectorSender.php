@@ -36,6 +36,7 @@ class CollectorSender implements Sender
         $url = $this->host . '/lead/create';
 
         $ch = curl_init($url);
+
         curl_setopt_array($ch, [
             CURLOPT_POST           => true,
             CURLOPT_RETURNTRANSFER => true,
@@ -44,6 +45,8 @@ class CollectorSender implements Sender
 
         $result = curl_exec($ch);
 
+        print_r($result);
+
         $result = @json_decode($result);
 
         if (empty($result)) {
@@ -51,5 +54,15 @@ class CollectorSender implements Sender
         }
 
         return $result->success;
+    }
+
+    /**
+     * Получение имени отправщика
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return 'collector';
     }
 }

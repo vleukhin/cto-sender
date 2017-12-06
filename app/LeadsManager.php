@@ -25,12 +25,18 @@ class LeadsManager
      * Отправка лида по всем каналам
      *
      * @param Lead $lead
+     *
+     * @return array
      */
     public function sendLead(Lead $lead)
     {
+        $result = [];
+
         foreach ($this->senders as $sender) {
-            $sender->send($lead);
+            $result[$sender->getName()] = $sender->send($lead);
         }
+
+        return $result;
     }
 
     /**

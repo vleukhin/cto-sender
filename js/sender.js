@@ -10,12 +10,22 @@
 
             var form = $(this);
 
+            var timezone = -(new Date().getTimezoneOffset()) / 60 - 3;
+
+            if (timezone > 0){
+                timezone = '+' + timezone
+            }
+            else{
+                timezone = '-' + timezone
+            }
+
             var data = {
                 city: ymaps.geolocation.city,
                 name: $('[name=name]', form).val(),
                 phone: $('[name=phone]', form).val(),
                 email: $('[name=email]', form).val(),
-                comment: $('[name=subject]', form).val()
+                comment: $('[name=subject]', form).val(),
+                timezone: 'МСК' + timezone
             };
 
             $.post('/sender/send.php', {
