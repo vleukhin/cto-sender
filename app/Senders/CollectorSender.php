@@ -45,8 +45,6 @@ class CollectorSender implements Sender
 
         $result = curl_exec($ch);
 
-        print_r($result);
-
         $result = @json_decode($result);
 
         if (empty($result)) {
