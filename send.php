@@ -12,7 +12,7 @@ $dotenv = new Dotenv\Dotenv('./');
 $dotenv->load();
 $utm_service = new UtmService();
 
-$lead = new Lead($_POST['data'] + $utm_service->getUtms());
+$lead = new Lead($_POST + $utm_service->getUtms());
 
 $manager = new LeadsManager();
 $manager->pushSender(new EmailSender(getenv('EMAIL_FROM'), getenv('EMAIL_TO'), getenv('EMAIL_NAME'), getenv('EMAIL_SUBJECT')));

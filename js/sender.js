@@ -28,27 +28,23 @@
                 timezone: 'МСК' + timezone
             };
 
-            $.post('/sender/send.php', {
+            $.ajax('/sender/send.php', {
+                method: 'POST',
                 data: data,
                 dataType: 'json',
-                success: function (data) {
-                    console.log(data);
-                    // var urlCto = 'http://mtraktor.ru/o-kompanii';
-                    // if (data.result == 'ok') {
-                    //     $('form').trigger('reset');
-                    //
-                    //     ga('send', 'event', 'Knopka', 'cel1');
-                    //
-                    //
-                    //     setTimeout($(location).attr('href', urlCto), 5000);
-                    //     //echo
-                    //     location.href = '#close';
-                    //     location.href = '#openModalOk';
-                    //     $('.firstBoxItems,.balanceBoxItems').prop('disabled', true)
-                    //     setTimeout('location.href='#close'', 5000);
-                    // } else {
-                    //     alert('Ошибка! Повторите позже.');
-                    // }
+                success: function (response) {
+                    console.log(response);
+                    var urlCto = 'http://mtraktor.ru/o-kompanii';
+                    $('form').trigger('reset');
+
+                    ga('send', 'event', 'Knopka', 'cel1');
+
+                    setTimeout($(location).attr('href', urlCto), 7000);
+                    //echo
+                    location.href = '#close';
+                    location.href = '#openModalOk';
+                    $('.firstBoxItems,.balanceBoxItems').prop('disabled', true);
+                    // setTimeout(location.href='#close', 5000);
                 }
             });
         })
