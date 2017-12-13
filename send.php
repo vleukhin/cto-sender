@@ -8,11 +8,19 @@ use App\UtmService;
 
 require 'vendor/autoload.php';
 
+$logger = new \Monolog\Logger('app', [
+    new \Monolog\Handler\RotatingFileHandler('./storage/logs/app.log'),
+]);
+
 $dotenv = new Dotenv\Dotenv('./');
 $dotenv->load();
 $utm_service = new UtmService();
 
-$lead = new Lead($_POST + $utm_service->getUtms());
+$attr = $_POST + $utm_service->getUtms();
+
+$lead = new Lead($attr);
+
+$logger->info('lead', $attr);
 
 $manager = new LeadsManager();
 $manager->pushSender(new EmailSender(getenv('EMAIL_FROM'), getenv('EMAIL_TO'), getenv('EMAIL_NAME'), getenv('EMAIL_SUBJECT')));
