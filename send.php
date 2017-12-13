@@ -16,7 +16,10 @@ $lead = new Lead($_POST + $utm_service->getUtms());
 
 $manager = new LeadsManager();
 $manager->pushSender(new EmailSender(getenv('EMAIL_FROM'), getenv('EMAIL_TO'), getenv('EMAIL_NAME'), getenv('EMAIL_SUBJECT')));
-$manager->pushSender(new CollectorSender(getenv('COLLECTOR_HOST')));
+
+if ($lead->name == 'Виктор тест') {
+    $manager->pushSender(new CollectorSender(getenv('COLLECTOR_HOST')));
+}
 
 $result = $manager->sendLead($lead);
 
