@@ -39,12 +39,13 @@
 
                     ga('send', 'event', 'Knopka', 'cel1');
 
-                    setTimeout($(location).attr('href', urlCto), 7000);
-                    //echo
+                    setTimeout(function () {
+                        $(location).attr('href', urlCto);
+                    }, 4000);
+
                     location.href = '#close';
                     location.href = '#openModalOk';
                     $('.firstBoxItems,.balanceBoxItems').prop('disabled', true);
-                    // setTimeout(location.href='#close', 5000);
                 }
             });
         })
