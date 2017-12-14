@@ -20,6 +20,7 @@ $attr = $_POST + $utm_service->getUtms();
 
 $lead = new Lead($attr);
 
+$logger->info('post', $_POST);
 $logger->info('lead', $attr);
 
 $manager = new LeadsManager();
