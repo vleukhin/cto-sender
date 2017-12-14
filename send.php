@@ -24,10 +24,7 @@ $logger->info('lead', $attr);
 
 $manager = new LeadsManager();
 $manager->pushSender(new EmailSender(getenv('EMAIL_FROM'), getenv('EMAIL_TO'), getenv('EMAIL_NAME'), getenv('EMAIL_SUBJECT')));
-
-if ($lead->name == 'Виктор тест') {
-    $manager->pushSender(new CollectorSender(getenv('COLLECTOR_HOST')));
-}
+$manager->pushSender(new CollectorSender(getenv('COLLECTOR_HOST')));
 
 $result = $manager->sendLead($lead);
 
