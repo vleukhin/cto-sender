@@ -11,13 +11,8 @@
             var form = $(this);
 
             var timezone = -(new Date().getTimezoneOffset()) / 60 - 3;
-
-            if (timezone > 0){
-                timezone = '+' + timezone
-            }
-            else{
-                timezone = '-' + timezone
-            }
+            var sign = timezone > 0 ? '+' : '-';
+            timezone = sign + timezone;
 
             var data = {
                 city: ymaps.geolocation.city,
