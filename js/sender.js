@@ -5,7 +5,7 @@
  */
 (function ($) {
     $(document).ready(function () {
-        $('form').on('submit', function (event) {
+        $('body').delegate('form', 'submit', function (event) {
             event.preventDefault();
 
             var form = $(this);
