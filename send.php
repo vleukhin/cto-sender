@@ -33,6 +33,7 @@ if (!empty($_POST['message'])){
 
 $logger->debug('post', $_POST);
 $logger->debug('server', $_SERVER);
+$logger->debug('get', $_GET);
 $logger->info('lead', $attr);
 
 $manager = new LeadsManager();
