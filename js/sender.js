@@ -22,7 +22,7 @@
                 comment: $('[name=subject]', form).val(),
                 timezone: 'МСК' + timezone,
                 formId: form.attr('id'),
-                formData: form.serialize()
+                formData: form.serializeArray()
             };
 
             $.ajax('/sender/send.php', {

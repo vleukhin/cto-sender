@@ -40,7 +40,7 @@ class CollectorSender implements Sender
         curl_setopt_array($ch, [
             CURLOPT_POST           => true,
             CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_POSTFIELDS     => $lead->toArray(),
+            CURLOPT_POSTFIELDS     => http_build_query($lead->toArray()),
         ]);
 
         $result = curl_exec($ch);
