@@ -5,7 +5,7 @@
  */
 (function ($) {
     $(document).ready(function () {
-        $('body').delegate('form', 'submit', function (event) {
+        $('body').delegate('form.sform', 'submit', function (event) {
             event.preventDefault();
 
             var form = $(this);
@@ -20,7 +20,8 @@
                 phone: $('[name=phone]', form).val(),
                 email: $('[name=email]', form).val(),
                 comment: $('[name=subject]', form).val(),
-                timezone: 'МСК' + timezone
+                timezone: 'МСК' + timezone,
+                formId: form.attr('id')
             };
 
             $.ajax('/sender/send.php', {
