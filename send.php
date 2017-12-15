@@ -20,6 +20,17 @@ $attr = $_POST + $utm_service->getUtms();
 
 $lead = new Lead($attr);
 
+if (!empty($_POST['message'])){
+    $logger = new \Monolog\Logger('app', [
+        new \Monolog\Handler\RotatingFileHandler('./storage/logs/js.log'),
+    ]);
+
+    $logger->debug('post', $_POST);
+    $logger->debug('server', $_SERVER);
+    echo 'logged';
+    exit;
+}
+
 $logger->debug('post', $_POST);
 $logger->debug('server', $_SERVER);
 $logger->info('lead', $attr);
