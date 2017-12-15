@@ -21,7 +21,7 @@
                 email: $('[name=email]', form).val(),
                 comment: $('[name=subject]', form).val(),
                 timezone: 'МСК' + timezone,
-                formId: form.attr('id')
+                formId: form.attr('id'),
             };
 
             $.ajax('/sender/send.php', {
