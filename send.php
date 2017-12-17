@@ -20,7 +20,7 @@ $attr = $_POST + $utm_service->getUtms();
 
 $lead = new Lead($attr);
 
-if (!empty($_POST['message'])){
+if (!empty($_POST['message'])) {
     $logger = new \Monolog\Logger('app', [
         new \Monolog\Handler\RotatingFileHandler('./storage/logs/js.log'),
     ]);
@@ -36,11 +36,16 @@ $logger->debug('server', $_SERVER);
 $logger->debug('get', $_GET);
 $logger->info('lead', $attr);
 
-$manager = new LeadsManager();
-$manager->pushSender(new EmailSender(getenv('EMAIL_FROM'), getenv('EMAIL_TO'), getenv('EMAIL_NAME'), getenv('EMAIL_SUBJECT')));
-$manager->pushSender(new CollectorSender(getenv('COLLECTOR_HOST')));
 
-$result = $manager->sendLead($lead);
+if (!empty($lead->phone)) {
+    $manager = new LeadsManager();
+    $manager->pushSender(new EmailSender(getenv('EMAIL_FROM'), getenv('EMAIL_TO'), getenv('EMAIL_NAME'), getenv('EMAIL_SUBJECT')));
+    $manager->pushSender(new CollectorSender(getenv('COLLECTOR_HOST')));
+    $result = $manager->sendLead($lead);
+} else {
+    $result = false;
+}
+
 
 header('Content-type: application/json');
 echo json_encode(['result' => $result], JSON_PRETTY_PRINT);
