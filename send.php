@@ -37,7 +37,7 @@ $logger->debug('get', $_GET);
 $logger->info('lead', $attr);
 
 
-if (!empty($lead->phone)) {
+if ($lead->phone) {
     $manager = new LeadsManager();
     $manager->pushSender(new EmailSender(getenv('EMAIL_FROM'), getenv('EMAIL_TO'), getenv('EMAIL_NAME'), getenv('EMAIL_SUBJECT')));
     $manager->pushSender(new CollectorSender(getenv('COLLECTOR_HOST')));
