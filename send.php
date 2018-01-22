@@ -1,17 +1,24 @@
 <?php
 
+use App\Lead;
+use App\LeadsManager;
+use App\Senders\CollectorSender;
+use App\Senders\EmailSender;
+use App\UtmService;
+
 require 'vendor/autoload.php';
 
 $dotenv = new Dotenv\Dotenv('./');
 $dotenv->load();
+$utm_service = new UtmService();
 
-echo getenv('COLLECTOR_URL');
+$lead = new Lead($_POST['data'] + $utm_service->getUtms());
 
-print_r($POST);
+$manager = new LeadsManager();
+$manager->pushSender(new EmailSender(getenv('EMAIL_FROM'), getenv('EMAIL_TO'), getenv('EMAIL_NAME'), getenv('EMAIL_SUBJECT')));
+$manager->pushSender(new CollectorSender(getenv('COLLECTOR_HOST')));
 
-$geo = new \App\Geo([
-    'id'      => $_SERVER['REMOTE_ADDR'],
-    'charset' => 'utf-8',
-]);
+$result = $manager->sendLead($lead);
 
-var_dump($geo->get_value(false, false));
+header('Content-type: application/json');
+echo json_encode(['result' => $result], JSON_PRETTY_PRINT);
