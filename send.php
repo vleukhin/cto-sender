@@ -14,7 +14,7 @@ $logger = new \Monolog\Logger('app', [
 
 $dotenv = new Dotenv\Dotenv('./');
 $dotenv->load();
-$utm_service = new UtmService();
+$utm_service = new UtmService(!empty($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '');
 
 $attr = $_POST + $utm_service->getUtms();
 
