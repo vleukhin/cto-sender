@@ -18,6 +18,7 @@ class Lead
     {
         $attributes['group_id'] = getenv('GROUP_ID');
         $attributes['source'] = getenv('SOURCE');
+        $attributes['type'] = getenv('TYPE', null);
 
         $this->attributes = $attributes;
     }
