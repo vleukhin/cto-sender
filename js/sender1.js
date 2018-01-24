@@ -20,7 +20,7 @@
                 button.val('Подождите...');
 
                 var timezone = -(new Date().getTimezoneOffset()) / 60 - 3;
-                var sign = timezone > 0 ? '+' : '-';
+                var sign = timezone < 0 ? '-' : '+';
                 timezone = sign + timezone;
 
                 var data = {
@@ -42,15 +42,11 @@
                         button.html(text);
                         button.css('cursor', 'default');
 
-
                         console.log(response);
-                        var urlCto = 'http://mtraktor.ru/o-kompanii';
                         $('form').trigger('reset');
 
-                        ga('send', 'event', 'Knopka', 'cel1');
-
                         setTimeout(function () {
-                            $(location).attr('href', urlCto);
+                            $(location).attr('href', response.redirect);
                         }, 4000);
 
                         location.href = '#close';

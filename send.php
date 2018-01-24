@@ -48,4 +48,8 @@ if ($lead->phone) {
 
 
 header('Content-type: application/json');
-echo json_encode(['result' => $result], JSON_PRETTY_PRINT);
+
+echo json_encode([
+    'result'   => $result,
+    'redirect' => getenv('REDIRECT_URL'),
+], JSON_PRETTY_PRINT);
