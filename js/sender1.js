@@ -29,6 +29,8 @@ addCss('/sender/js/tooltipster/css/tooltipster.bundle.min.css');
 
 (function ($) {
     $(document).ready(function () {
+        $(".phone-mask").mask("0 (000) 000-00-00", {placeholder: "_ (___) ___-__-__"});
+
         var body = $('body');
         body.delegate('[type="submit"]', 'click', function () {
             var form = $(this).closest('form');
