@@ -4,11 +4,28 @@
  * E-mail: vleukhin@ya.ru
  */
 
+function addScript(src) {
+    var s = document.createElement('script');
+    s.setAttribute('src', src);
+    document.head.appendChild(s);
+}
+
+function addCss(src) {
+    var css = document.createElement('link');
+    css.href = src;
+    css.type = "text/css";
+    css.rel = "stylesheet";
+    css.media = "screen,print";
+    document.head.appendChild(css);
+}
+
 function validPhone(phone) {
     var pattern = /^((8|\+7|7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{10}$/;
-
     return pattern.test(phone);
 }
+
+addScript('/sender/js/tooltipster/js/tooltipster.bundle.min.js');
+addCss('/sender/js/tooltipster/css/tooltipster.bundle.min.css');
 
 (function ($) {
     $(document).ready(function () {
