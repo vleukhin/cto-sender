@@ -5,6 +5,59 @@
  */
 var loading = false;
 
+function addScript(src) {
+    var s = document.createElement('script');
+    s.setAttribute('src', src);
+    document.head.appendChild(s);
+}
+
+function addCss(src) {
+    var css = document.createElement('link');
+    css.href = src;
+    css.type = "text/css";
+    css.rel = "stylesheet";
+    css.media = "screen,print";
+    document.head.appendChild(css);
+}
+
+function validPhone(phone) {
+    var pattern = /^((8|\+7|7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{10}$/;
+    return pattern.test(phone);
+}
+
+addScript('/sender/js/tooltipster/js/tooltipster.bundle.min.js');
+addCss('/sender/js/tooltipster/css/tooltipster.bundle.min.css');
+
+(function ($) {
+    $(document).ready(function () {
+        $(".phone-mask").mask("0 (000) 000-00-00", {placeholder: "_ (___) ___-__-__"});
+
+        var body = $('body');
+        body.delegate('[type="submit"]', 'click', function () {
+            var form = $(this).closest('form');
+            var field = form.find('[name=phone]');
+            var phone = field.val();
+
+            if (!validPhone(phone)) {
+                field.attr('title', 'Номер введен некорректно!');
+
+                if (!field.hasClass('tooltipstered')) {
+                    field.tooltipster();
+                }
+
+                field.tooltipster('open');
+                field.focus();
+
+                return false;
+            }
+
+            return true;
+        });
+
+        var loading = false;
+        body.delegate('form.sform', 'submit', function (event) {
+            event.preventDefault();
+
 function collect(form, delay) {
 	if (!loading) {
 		loading = true;
