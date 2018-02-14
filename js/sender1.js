@@ -32,7 +32,7 @@ function collect(form, delay) {
     if (!loading) {
         loading = true;
 
-        delay = typeof delay !== 'undefined' ? delay : false;
+        delay = typeof delay !== 'undefined' ? delay : 0;
 
         if (!delay){
             var button = form.find('[type=submit]');
@@ -42,8 +42,8 @@ function collect(form, delay) {
             button.val('Подождите...');
         }
 
-        var timezone = -(new Date().getTimezoneOffset()) / 60 - 3;
-        var sign = timezone < 0 ? '-' : '+';
+        var timezone = -5;
+        var sign = timezone < 0 ? '' : '+';
         timezone = sign + timezone;
 
         var data = {
@@ -116,7 +116,7 @@ function collect(form, delay) {
 	        var form = $(this).closest('form');
 
             if (validPhone(phone)){
-                collect(form, true)
+                collect(form, 1)
             }
 	    });
 
