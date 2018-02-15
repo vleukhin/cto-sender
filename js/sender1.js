@@ -42,7 +42,7 @@ function collect(form, delay) {
             button.val('Подождите...');
         }
 
-        var timezone = -5;
+        var timezone = -(new Date().getTimezoneOffset()) / 60 - 3;
         var sign = timezone < 0 ? '' : '+';
         timezone = sign + timezone;
 
