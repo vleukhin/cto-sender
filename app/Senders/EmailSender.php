@@ -57,12 +57,16 @@ class EmailSender implements Sender
      */
     public function send(Lead $lead)
     {
-        $text = $lead->toString();
-        
-        $headers = "MIME-Version: 1.0\r\nContent-type: text/html; charset=utf-8\r\n";
-        $headers .= "From: =?UTF-8?B?" . base64_encode($this->name) . "?= <" . $this->email_from . ">\r\n";
+        if (!$lead->delay){
+            $text = $lead->toString();
 
-        return mail($this->email_to, "=?UTF-8?B?" . base64_encode($this->subject) . "?=", $text, $headers);
+            $headers = "MIME-Version: 1.0\r\nContent-type: text/html; charset=utf-8\r\n";
+            $headers .= "From: =?UTF-8?B?" . base64_encode($this->name) . "?= <" . $this->email_from . ">\r\n";
+
+            return mail($this->email_to, "=?UTF-8?B?" . base64_encode($this->subject) . "?=", $text, $headers);
+        }
+
+        return true;
     }
 
     /**
