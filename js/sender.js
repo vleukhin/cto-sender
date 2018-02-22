@@ -34,10 +34,10 @@ function collect(form, delay) {
 
         delay = typeof delay !== 'undefined' ? delay : 0;
 
-        if (!delay){
+        if (!delay) {
             var button = form.find('[type=submit]');
             var text = button.val();
-            button.css('width', button.css('width'));
+            button.css('min-width', button.css('width'));
             button.css('cursor', 'not-allowed');
             button.val('Подождите...');
         }
@@ -52,6 +52,7 @@ function collect(form, delay) {
             phone: $('[name=phone]', form).val(),
             email: $('[name=email]', form).val(),
             comment: $('[name=subject]', form).val(),
+            note: $('[name=note]', form).val(),
             timezone: 'МСК' + timezone,
             formId: form.attr('id'),
             formData: form.serializeArray(),
@@ -64,7 +65,7 @@ function collect(form, delay) {
             dataType: 'json',
             success: function (response) {
                 loading = false;
-                if (!delay){
+                if (!delay) {
                     button.html(text);
                     button.css('cursor', 'default');
 
@@ -111,19 +112,19 @@ function collect(form, delay) {
             return true;
         });
 
-	    body.delegate('form.sform [name=phone]', 'keyup', function (event) {
-	        var phone = $(this).val();
-	        var form = $(this).closest('form');
+        body.delegate('form.sform [name=phone]', 'keyup', function (event) {
+            var phone = $(this).val();
+            var form = $(this).closest('form');
 
-            if (validPhone(phone)){
+            if (validPhone(phone)) {
                 collect(form, 1)
             }
-	    });
+        });
 
         body.delegate('form.sform', 'submit', function (event) {
-	        event.preventDefault();
+            event.preventDefault();
 
-	        collect($(this));
+            collect($(this));
         });
     });
 })(window.jQuery);
