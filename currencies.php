@@ -27,5 +27,5 @@ if (empty($GLOBALS['rates'])) {
 
 function convert_currency($amount, $from)
 {
-	return number_format($amount * $GLOBALS['rates'][$from]['RUB'], 0, ',', '');
+	return number_format($amount * $GLOBALS['rates'][$from]['RUB'], 0, ',', ' ');
 }
