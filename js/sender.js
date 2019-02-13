@@ -89,23 +89,41 @@ function collect(form, delay) {
     }
 }
 
-function trackLead(transaction_id){
-    dataLayer.push({
-        'ecommerce': {
-            'currencyCode': 'RUB',
-            'purchase': {
-                'actionField': {
-                    'id': transaction_id,
-                    'affiliation': 'Landing'
-                },
-                'products': []
-            }
-        },
-        'event': 'gtm-ee-event',
-        'gtm-ee-event-category': 'Enhanced Ecommerce',
-        'gtm-ee-event-action': 'Purchase',
-        'gtm-ee-event-non-interaction': 'False'
+function trackLead(transaction_id) {
+    if (typeof dataLayer !== 'undefined') {
+        dataLayer.push({
+            'ecommerce': {
+                'currencyCode': 'RUB',
+                'purchase': {
+                    'actionField': {
+                        'id': transaction_id,
+                        'affiliation': 'Landing'
+                    },
+                    'products': []
+                }
+            },
+            'event': 'gtm-ee-event',
+            'gtm-ee-event-category': 'Enhanced Ecommerce',
+            'gtm-ee-event-action': 'Purchase',
+            'gtm-ee-event-non-interaction': 'False'
+        });
+    }
+
+    ADMITAD = window.ADMITAD || {};
+    ADMITAD.Invoice = ADMITAD.Invoice || {};
+    ADMITAD.Invoice.broker = "adm";     // параметр дедупликации (по умолчанию для Admitad)
+    ADMITAD.Invoice.category = "1";     // код целевого действия (определяется при интеграции)
+
+    ADMITAD.Invoice.referencesOrder = ADMITAD.Invoice.referencesOrder || [];
+
+    ADMITAD.Invoice.referencesOrder.push({
+        orderNumber: transaction_id, // внутренний номер заказа (не более 100 символов)
+        orderedItem: []
     });
+
+    if (typeof ADMITAD.Tracking !== 'undefined') {
+        ADMITAD.Tracking.processPositions();
+    }
 }
 
 (function ($) {
