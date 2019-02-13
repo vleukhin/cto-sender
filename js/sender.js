@@ -72,6 +72,10 @@ function collect(form, delay) {
                     console.log(response);
                     $('form').trigger('reset');
 
+                    if (response.result.collector.success) {
+                        trackLead(response.result.collector.transaction_id);
+                    }
+
                     setTimeout(function () {
                         $(location).attr('href', response.redirect);
                     }, 4000);
@@ -83,6 +87,25 @@ function collect(form, delay) {
             }
         });
     }
+}
+
+function trackLead(transaction_id){
+    dataLayer.push({
+        'ecommerce': {
+            'currencyCode': 'RUB',
+            'purchase': {
+                'actionField': {
+                    'id': transaction_id,
+                    'affiliation': 'Landing'
+                },
+                'products': []
+            }
+        },
+        'event': 'gtm-ee-event',
+        'gtm-ee-event-category': 'Enhanced Ecommerce',
+        'gtm-ee-event-action': 'Purchase',
+        'gtm-ee-event-non-interaction': 'False'
+    });
 }
 
 (function ($) {
