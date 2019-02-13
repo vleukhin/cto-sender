@@ -29,9 +29,9 @@ class CollectorSender implements Sender
      *
      * @param Lead $lead
      *
-     * @return bool
+     * @return array
      */
-    public function send(Lead $lead)
+    public function send(Lead $lead): ?array
     {
         $url = $this->host . '/lead/create';
 
@@ -45,13 +45,13 @@ class CollectorSender implements Sender
 
         $result = curl_exec($ch);
 
-        $result = @json_decode($result);
+        $result = @json_decode($result, true);
 
         if (empty($result)) {
-            return false;
+            return null;
         }
 
-        return $result->success;
+        return $result;
     }
 
     /**
