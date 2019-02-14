@@ -65,7 +65,7 @@ function collect(form, delay) {
             formId: form.attr('id'),
             formData: form.serializeArray(),
             delay: delay,
-            roistat_visit: getCookie('roistat_visit')
+            roistat_id: getCookie('roistat_visit')
         };
 
         $.ajax('/sender/send.php', {
