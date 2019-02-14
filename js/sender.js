@@ -25,6 +25,14 @@ function validPhone(phone) {
     return pattern.test(phone);
 }
 
+function getCookie(name) {
+
+    var matches = document.cookie.match(new RegExp(
+        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+    ))
+    return matches ? decodeURIComponent(matches[1]) : undefined
+}
+
 addScript('/sender/js/tooltipster/js/tooltipster.bundle.min.js');
 addCss('/sender/js/tooltipster/css/tooltipster.bundle.min.css');
 
@@ -56,7 +64,8 @@ function collect(form, delay) {
             timezone: 'МСК' + timezone,
             formId: form.attr('id'),
             formData: form.serializeArray(),
-            delay: delay
+            delay: delay,
+            roistat_visit: getCookie('roistat_visit')
         };
 
         $.ajax('/sender/send.php', {
