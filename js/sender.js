@@ -75,6 +75,8 @@ function collect(form, delay) {
             success: function (response) {
                 loading = false;
                 if (!delay) {
+                    yaMetrikaReachGoal('supercel');
+
                     button.html(text);
                     button.css('cursor', 'default');
 
@@ -132,6 +134,17 @@ function trackLead(transaction_id) {
 
     if (typeof ADMITAD.Tracking !== 'undefined') {
         ADMITAD.Tracking.processPositions();
+    }
+}
+
+function yaMetrikaReachGoal(goal) {
+    console.log('yaMetrikaReachGoal: ' + goal);
+
+    for (var object in window) {
+        if (window.hasOwnProperty(object) && object.startsWith('yaCounter')) {
+            var counter = window[object];
+            counter.reachGoal(goal);
+        }
     }
 }
 
