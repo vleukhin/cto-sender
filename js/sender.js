@@ -80,20 +80,12 @@ function collect(form, delay) {
                     button.html(text);
                     button.css('cursor', 'default');
 
-                    console.log(response);
-                    $('form').trigger('reset');
-
                     if (response.result.collector.success) {
                         trackLead(response.result.collector.transaction_id);
                     }
 
-                    setTimeout(function () {
-                        $(location).attr('href', response.redirect);
-                    }, 4000);
-
-                    location.href = '#close';
-                    location.href = '#openModalOk';
                     $('.firstBoxItems,.balanceBoxItems').prop('disabled', true);
+                    $(location).attr('href', response.redirect);
                 }
             }
         });
