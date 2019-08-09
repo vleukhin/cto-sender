@@ -8,17 +8,48 @@ use App\UtmService;
 
 require 'vendor/autoload.php';
 
+$logger = new \Monolog\Logger('app', [
+    new \Monolog\Handler\RotatingFileHandler('./storage/logs/app.log'),
+]);
+
 $dotenv = new Dotenv\Dotenv('./');
 $dotenv->load();
-$utm_service = new UtmService();
+$utm_service = new UtmService(!empty($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '');
 
-$lead = new Lead($_POST['data'] + $utm_service->getUtms());
+$attr = $_POST + $utm_service->getUtms();
 
-$manager = new LeadsManager();
-$manager->pushSender(new EmailSender(getenv('EMAIL_FROM'), getenv('EMAIL_TO'), getenv('EMAIL_NAME'), getenv('EMAIL_SUBJECT')));
-$manager->pushSender(new CollectorSender(getenv('COLLECTOR_HOST')));
+$lead = new Lead($attr);
 
-$result = $manager->sendLead($lead);
+if (!empty($_POST['message'])) {
+    $logger = new \Monolog\Logger('app', [
+        new \Monolog\Handler\RotatingFileHandler('./storage/logs/js.log'),
+    ]);
+
+    $logger->debug('post', $_POST);
+    $logger->debug('server', $_SERVER);
+    echo 'logged';
+    exit;
+}
+
+$logger->debug('post', $_POST);
+$logger->debug('server', $_SERVER);
+$logger->debug('get', $_GET);
+$logger->info('lead', $attr);
+
+
+if ($lead->phone) {
+    $manager = new LeadsManager();
+    $manager->pushSender(new EmailSender(getenv('EMAIL_FROM'), getenv('EMAIL_TO'), getenv('EMAIL_NAME'), getenv('EMAIL_SUBJECT')));
+    $manager->pushSender(new CollectorSender(getenv('COLLECTOR_HOST')));
+    $result = $manager->sendLead($lead);
+} else {
+    $result = false;
+}
+
 
 header('Content-type: application/json');
-echo json_encode(['result' => $result], JSON_PRETTY_PRINT);
+
+echo json_encode([
+    'result'   => $result,
+    'redirect' => getenv('REDIRECT_URL'),
+], JSON_PRETTY_PRINT);

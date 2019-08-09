@@ -10,23 +10,28 @@ namespace App;
 
 class UtmService
 {
-    protected $utms = [
-        'utm_source',
-        'utm_medium',
-        'utm_campaign',
-        'utm_term',
-    ];
+	protected $utms = [
+		'utm_source' => 1,
+		'utm_medium' => 1,
+		'utm_campaign' => 1,
+		'utm_term' => 1,
+		'utm_content' => 1,
+	];
 
-    public function getUtms()
-    {
-        $result = [];
+	protected $query = [];
 
-        foreach ($this->utms as $utm) {
-            if (isset($_COOKIE['cookie_' . $utm])) {
-                $result[$utm] = $_COOKIE['cookie_' . $utm];
-            }
-        }
+	public function __construct($referer)
+	{
+		$request = parse_url($referer);
 
-        return $result;
-    }
+		if (!empty($request['query']))
+		{
+			parse_str($request['query'], $this->query);
+		}
+	}
+
+	public function getUtms()
+	{
+		return array_intersect_key($this->query, $this->utms);
+	}
 }

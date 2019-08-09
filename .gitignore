@@ -4,3 +4,5 @@
 out
 gen
 .env
+storage
+.DS_Store

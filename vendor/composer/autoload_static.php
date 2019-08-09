@@ -6,7 +6,19 @@ namespace Composer\Autoload;
 
 class ComposerStaticInitd2d8ba5715a05b19bf76516fb00998c7
 {
+    public static $files = array (
+        '1aa1f8b11699b53f9249e1257c927ea6' => __DIR__ . '/../..' . '/currencies.php',
+    );
+
     public static $prefixLengthsPsr4 = array (
+        'P' => 
+        array (
+            'Psr\\Log\\' => 8,
+        ),
+        'M' => 
+        array (
+            'Monolog\\' => 8,
+        ),
         'D' => 
         array (
             'Dotenv\\' => 7,
@@ -18,6 +30,14 @@ class ComposerStaticInitd2d8ba5715a05b19bf76516fb00998c7
     );
 
     public static $prefixDirsPsr4 = array (
+        'Psr\\Log\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
+        ),
+        'Monolog\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
+        ),
         'Dotenv\\' => 
         array (
             0 => __DIR__ . '/..' . '/vlucas/phpdotenv/src',

@@ -18,6 +18,7 @@ class Lead
     {
         $attributes['group_id'] = getenv('GROUP_ID');
         $attributes['source'] = getenv('SOURCE');
+        $attributes['type'] = getenv('TYPE', null);
 
         $this->attributes = $attributes;
     }
@@ -40,7 +41,7 @@ class Lead
     public function toString()
     {
         $text = "
-<p><strong>Форма:</strong>{$this->subject}</p>
+<p><strong>Форма:</strong> {$this->comment}</p>
 <p><strong>Имя:</strong> {$this->name}</p>
 <p><strong>Телефон:</strong> {$this->phone}</p>
 <p><strong>E-mail:</strong>{$this->email}</p>
