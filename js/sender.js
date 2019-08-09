@@ -142,7 +142,7 @@ function yaMetrikaReachGoal(goal) {
 
 (function ($) {
     $(document).ready(function () {
-        $(".phone-mask").mask("0 (000) 000-00-00", {placeholder: "_ (___) ___-__-__"});
+        $(".phone-mask").mask("+0 (000) 000-00-00");
 
         var body = $('body');
 
