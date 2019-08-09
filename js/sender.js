@@ -21,7 +21,7 @@ function addCss(src) {
 }
 
 function validPhone(phone) {
-    var pattern = /^((8|\+7|7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{10}$/;
+    var pattern = /^((\+\d)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{10}$/;
     return pattern.test(phone);
 }
 
