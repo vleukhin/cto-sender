@@ -201,9 +201,21 @@ function yaMetrikaReachGoal(goal) {
     }
 }
 
+function markWhatsAppMessage() {
+    var link = $('.whatsapp-button').parent();
+
+    if (link.length){
+        var href = new URL(link.attr('href'));
+        href.search = href.search.replace(/(\?text=)(.*)/, '$1' + 'U:' + getUserId()  +' $2');
+        link.attr('href', href.toString())
+    }
+}
+
 (function ($) {
     $(document).ready(function () {
         trackUser();
+
+        markWhatsAppMessage();
 
         $(".phone-mask").mask("0 (000) 000-00-00", {placeholder: "_ (___) ___-__-__"});
 
