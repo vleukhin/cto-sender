@@ -134,16 +134,60 @@ function trackUser() {
     xmlHttp.onreadystatechange = function () {
         if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
             var xhr = new XMLHttpRequest();
-            xhr.open("POST", JSON.parse(xmlHttp.response).url, true);
+            xhr.open("POST", JSON.parse(xmlHttp.response).url + '/landing/track', true);
             xhr.setRequestHeader('Content-Type', 'application/json');
             xhr.send(JSON.stringify({
-                value: 'value'
+                uid: getUserId(),
             }));
         }
     };
 
     xmlHttp.open("GET", '/sender/collector.php');
     xmlHttp.send(null);
+}
+
+function generateUserId() {
+    var S4 = function () {
+        return (((1 + Math.random()) * 0x10000) | 0)
+            .toString(16)
+            .substring(1);
+    };
+
+    return (S4() + S4() + S4());
+}
+
+function getUserId() {
+    let cookie = "cto.uid";
+    var id = getCookie(cookie);
+
+    if (!id) {
+        id = generateUserId();
+
+        setCookie(cookie, id, 7);
+    }
+
+    return id;
+}
+
+function getCookie(name) {
+    var matches = document.cookie.match(
+        new RegExp(
+            "(?:^|; )" +
+            name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, "\\$1") +
+            "=([^;]*)"
+        )
+    );
+    return matches ? decodeURIComponent(matches[1]) : undefined;
+}
+
+function setCookie(name, value, days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "") + expires + "; path=/";
 }
 
 function yaMetrikaReachGoal(goal) {
