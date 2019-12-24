@@ -129,6 +129,23 @@ function trackLead(transaction_id) {
     }
 }
 
+function trackUser() {
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function () {
+        if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", JSON.parse(xmlHttp.response).url, true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.send(JSON.stringify({
+                value: 'value'
+            }));
+        }
+    };
+
+    xmlHttp.open("GET", '/sender/collector.php');
+    xmlHttp.send(null);
+}
+
 function yaMetrikaReachGoal(goal) {
     console.log('yaMetrikaReachGoal: ' + goal);
 
@@ -142,6 +159,8 @@ function yaMetrikaReachGoal(goal) {
 
 (function ($) {
     $(document).ready(function () {
+        trackUser();
+
         $(".phone-mask").mask("0 (000) 000-00-00", {placeholder: "_ (___) ___-__-__"});
 
         var body = $('body');
