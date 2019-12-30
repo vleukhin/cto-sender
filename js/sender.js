@@ -206,7 +206,7 @@ function markWhatsAppMessage() {
 
     if (link.length){
         var href = new URL(link.attr('href'));
-        href.search = href.search.replace(/(\?text=)(.*)/, '$1' + 'U:' + getUserId()  +' $2');
+        href.search = href.search.replace(/(\?text=)(.*)/, '$1' + 'Номер вашего обращения: ' + getUserId()  +'. $2');
         link.attr('href', href.toString())
     }
 }
