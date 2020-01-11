@@ -129,6 +129,67 @@ function trackLead(transaction_id) {
     }
 }
 
+function trackUser() {
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function () {
+        if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", JSON.parse(xmlHttp.response).url + '/landing/track', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.send(JSON.stringify({
+                uid: getUserId(),
+            }));
+        }
+    };
+
+    xmlHttp.open("GET", '/sender/collector.php');
+    xmlHttp.send(null);
+}
+
+function generateUserId() {
+    var S4 = function () {
+        return (((1 + Math.random()) * 0x10000) | 0)
+            .toString(16)
+            .substring(1);
+    };
+
+    return (S4() + S4() + S4());
+}
+
+function getUserId() {
+    let cookie = "cto.uid";
+    var id = getCookie(cookie);
+
+    if (!id) {
+        id = generateUserId();
+
+        setCookie(cookie, id, 7);
+    }
+
+    return id;
+}
+
+function getCookie(name) {
+    var matches = document.cookie.match(
+        new RegExp(
+            "(?:^|; )" +
+            name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, "\\$1") +
+            "=([^;]*)"
+        )
+    );
+    return matches ? decodeURIComponent(matches[1]) : undefined;
+}
+
+function setCookie(name, value, days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+}
+
 function yaMetrikaReachGoal(goal) {
     console.log('yaMetrikaReachGoal: ' + goal);
 
@@ -140,8 +201,22 @@ function yaMetrikaReachGoal(goal) {
     }
 }
 
+function markWhatsAppMessage() {
+    var link = $('.whatsapp-button').parent();
+
+    if (link.length){
+        var href = new URL(link.attr('href'));
+        href.search = href.search.replace(/(\?text=)(.*)/, '$1' + 'Номер вашего обращения: ' + getUserId()  +'. $2');
+        link.attr('href', href.toString())
+    }
+}
+
 (function ($) {
     $(document).ready(function () {
+        trackUser();
+
+        markWhatsAppMessage();
+
         $(".phone-mask").mask("0 (000) 000-00-00", {placeholder: "_ (___) ___-__-__"});
 
         var body = $('body');
