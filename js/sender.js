@@ -68,6 +68,12 @@ function collect(form, delay) {
             roistat_id: getCookie('roistat_visit')
         };
 
+        var counter = getYaMetricaCounter();
+
+        if (counter){
+            data['yaClientID'] = counter.getClientID();
+        }
+
         $.ajax('/sender/send.php', {
             method: 'POST',
             data: data,
@@ -201,12 +207,22 @@ function yaMetrikaReachGoal(goal) {
     }
 }
 
+function getYaMetricaCounter() {
+    if (typeof Ya !== 'undefined' && Ya.Metrika) {
+        var id = Ya.Metrika.counters()[0].id;
+
+        return window['yaCounter' + id] || null;
+    }
+
+    return null;
+}
+
 function markWhatsAppMessage() {
     var link = $('.whatsapp-button').parent();
 
-    if (link.length){
+    if (link.length) {
         var href = new URL(link.attr('href'));
-        href.search = href.search.replace(/(\?text=)(.*)/, '$1' + 'Номер вашего обращения: ' + getUserId()  +'. $2');
+        href.search = href.search.replace(/(\?text=)(.*)/, '$1' + 'Номер вашего обращения: ' + getUserId() + '. $2');
         link.attr('href', href.toString())
     }
 }
