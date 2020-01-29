@@ -71,7 +71,7 @@ function collect(form, delay) {
         var counter = getYaMetricaCounter();
 
         if (counter){
-            data['yaClientID'] = counter.getClientID();
+            data['ya_client_id'] = counter.getClientID();
         }
 
         $.ajax('/sender/send.php', {
