@@ -208,10 +208,8 @@ function yaMetrikaReachGoal(goal) {
 }
 
 function getYaMetricaCounter() {
-    if (typeof Ya !== 'undefined' && Ya.Metrika) {
-        var id = Ya.Metrika.counters()[0].id;
-
-        return window['yaCounter' + id] || null;
+    if (window.hasOwnProperty(object) && object.startsWith('yaCounter')) {
+        return window[object];
     }
 
     return null;
