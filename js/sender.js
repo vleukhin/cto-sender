@@ -70,7 +70,7 @@ function collect(form, delay) {
 
         var counter = getYaMetricaCounter();
 
-        if (counter){
+        if (counter) {
             data['ya_client_id'] = counter.getClientID();
         }
 
@@ -208,8 +208,10 @@ function yaMetrikaReachGoal(goal) {
 }
 
 function getYaMetricaCounter() {
-    if (window.hasOwnProperty(object) && object.startsWith('yaCounter')) {
-        return window[object];
+    for (var object in window) {
+        if (window.hasOwnProperty(object) && object.startsWith('yaCounter')) {
+            return window[object];
+        }
     }
 
     return null;
