@@ -139,12 +139,19 @@ function trackUser() {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function () {
         if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
+            var data = {
+                uid: getUserId(),
+            };
+            var counter = getYaMetricaCounter();
+
+            if (counter) {
+                data['ya_client_id'] = counter.getClientID();
+            }
+
             var xhr = new XMLHttpRequest();
             xhr.open("POST", JSON.parse(xmlHttp.response).url + '/landing/track', true);
             xhr.setRequestHeader('Content-Type', 'application/json');
-            xhr.send(JSON.stringify({
-                uid: getUserId(),
-            }));
+            xhr.send(JSON.stringify(data));
         }
     };
 
