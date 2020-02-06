@@ -240,7 +240,7 @@ function markWhatsAppMessage() {
 
         markWhatsAppMessage();
 
-        $(".phone-mask").mask("0 (000) 000-00-00", {placeholder: "_ (___) ___-__-__"});
+        $(".phone-mask").mask("+9 (999) 999-99-99", {placeholder: "+_ (___) ___-__-__"});
 
         var body = $('body');
 
