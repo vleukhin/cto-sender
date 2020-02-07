@@ -65,7 +65,8 @@ function collect(form, delay) {
             formId: form.attr('id'),
             formData: form.serializeArray(),
             delay: delay,
-            roistat_id: getCookie('roistat_visit')
+            roistat_id: getCookie('roistat_visit'),
+            ua: window.navigator.userAgent
         };
 
         var counter = getYaMetricaCounter();
