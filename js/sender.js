@@ -226,7 +226,11 @@ function getYaMetricaCounter() {
 }
 
 function markWhatsAppMessage() {
-    var link = $('.whatsapp-button').parent();
+    var link = $('span.whatsapp-button').parent();
+
+    if (!link.length) {
+        link = $('.whatsapp-button')
+    }
 
     if (link.length) {
         var href = new URL(link.attr('href'));
