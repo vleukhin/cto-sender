@@ -49,7 +49,10 @@ if ($lead->phone) {
 
 header('Content-type: application/json');
 
+$referer = $_SERVER['HTTP_REFERER'] ?? '';
+$parts = parse_url($referer) ?? [];
+
 echo json_encode([
     'result'   => $result,
-    'redirect' => getenv('REDIRECT_URL'),
+    'redirect' => getenv('REDIRECT_URL') . '?' . ($parts['query'] ?? ''),
 ], JSON_PRETTY_PRINT);
