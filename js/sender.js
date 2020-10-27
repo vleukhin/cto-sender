@@ -142,6 +142,7 @@ function trackUser() {
         if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
             var data = {
                 uid: getUserId(),
+                url: document.location.href,
             };
             var counter = getYaMetricaCounter();
 
