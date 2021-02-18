@@ -73,6 +73,7 @@ function collect(form, delay) {
 
         if (counter) {
             data['ya_client_id'] = counter.getClientID();
+            data['ya_counter_id'] = Ya._metrika.getCounters()[0].id;
         }
 
         $.ajax('/sender/send.php', {
@@ -148,6 +149,7 @@ function trackUser() {
 
             if (counter) {
                 data['ya_client_id'] = counter.getClientID();
+                data['ya_counter_id'] = Ya._metrika.getCounters()[0].id;
             }
 
             var xhr = new XMLHttpRequest();
