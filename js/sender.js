@@ -65,8 +65,16 @@ function collect(form, delay) {
             formId: form.attr('id'),
             formData: form.serializeArray(),
             delay: delay,
-            roistat_id: getCookie('roistat_visit')
+            roistat_id: getCookie('roistat_visit'),
+            ua: window.navigator.userAgent
         };
+
+        var counter = getYaMetricaCounter();
+
+        if (counter) {
+            data['ya_client_id'] = counter.getClientID();
+            data['ya_counter_id'] = Ya._metrika.getCounters()[0].id;
+        }
 
         $.ajax('/sender/send.php', {
             method: 'POST',
@@ -133,12 +141,21 @@ function trackUser() {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function () {
         if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
+            var data = {
+                uid: getUserId(),
+                url: document.location.href,
+            };
+            var counter = getYaMetricaCounter();
+
+            if (counter) {
+                data['ya_client_id'] = counter.getClientID();
+                data['ya_counter_id'] = Ya._metrika.getCounters()[0].id;
+            }
+
             var xhr = new XMLHttpRequest();
             xhr.open("POST", JSON.parse(xmlHttp.response).url + '/landing/track', true);
             xhr.setRequestHeader('Content-Type', 'application/json');
-            xhr.send(JSON.stringify({
-                uid: getUserId(),
-            }));
+            xhr.send(JSON.stringify(data));
         }
     };
 
@@ -201,12 +218,26 @@ function yaMetrikaReachGoal(goal) {
     }
 }
 
-function markWhatsAppMessage() {
-    var link = $('.whatsapp-button').parent();
+function getYaMetricaCounter() {
+    for (var object in window) {
+        if (window.hasOwnProperty(object) && object.startsWith('yaCounter')) {
+            return window[object];
+        }
+    }
 
-    if (link.length){
+    return null;
+}
+
+function markWhatsAppMessage() {
+    var link = $('span.whatsapp-button').parent();
+
+    if (!link.length) {
+        link = $('.whatsapp-button')
+    }
+
+    if (link.length) {
         var href = new URL(link.attr('href'));
-        href.search = href.search.replace(/(\?text=)(.*)/, '$1' + 'Номер вашего обращения: ' + getUserId()  +'. $2');
+        href.search = href.search.replace(/(\?text=)(.*)/, '$1' + 'Номер вашего обращения: ' + getUserId() + '. $2');
         link.attr('href', href.toString())
     }
 }
@@ -217,7 +248,7 @@ function markWhatsAppMessage() {
 
         markWhatsAppMessage();
 
-        $(".phone-mask").mask("0 (000) 000-00-00", {placeholder: "_ (___) ___-__-__"});
+        $(".phone-mask").mask("+9 (999) 999-99-99", {placeholder: "+_ (___) ___-__-__"});
 
         var body = $('body');
 

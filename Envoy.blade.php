@@ -1,4 +1,4 @@
-@servers(['oborud5' => 'oborud5', 'mini' => 'mini','front' => 'front','pogruz' => 'pogruz'])
+@servers(['oborud5' => 'oborud5', 'mini' => 'mini','front' => 'front','pogruz' => 'pogruz', 'ant-front' => 'ant-front'])
 
 @setup
     $landings = [
@@ -39,6 +39,9 @@
             'погрузчик5.рф' => 'httpdocs',
             'вилочный.погрузчик5.рф' => 'subdomains/xn--b1amdhkf7d7a/httpdocs',
         ],
+        'ant-front' => [
+            'ant-front.ru' => 'httpdocs',
+        ],
     ];
 @endsetup
 
@@ -78,9 +81,19 @@
     @endforeach
 @endtask
 
+@task('update-sender-ant-front', ['on' => 'ant-front'])
+echo 'Updating sender on ant-front'
+@foreach($landings['ant-front'] as $name => $dir)
+    echo 'Updating landing {{ $name }}'
+    cd ~/{{ $dir }}/sender
+    git pull
+@endforeach
+@endtask
+
 @story('update-sender')
     update-sender-oborud5
     update-sender-mini
     update-sender-front
     update-sender-pogruz
+    update-sender-ant-front
 @endstory
