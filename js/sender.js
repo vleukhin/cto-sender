@@ -5,6 +5,8 @@
  */
 var loading = false;
 
+markWhatsAppMessage();
+
 function addScript(src) {
     var s = document.createElement('script');
     s.setAttribute('src', src);
@@ -235,24 +237,18 @@ function getYaMetricaCounter() {
 }
 
 function markWhatsAppMessage() {
-    var link = $('span.whatsapp-button').parent();
+    var links = document.querySelectorAll('.whatsapp-button');
 
-    if (!link.length) {
-        link = $('.whatsapp-button')
-    }
-
-    if (link.length) {
-        var href = new URL(link.attr('href'));
-        href.search = href.search.replace(/(\?text=)(.*)/, '$1' + 'Номер вашего обращения: ' + getUserId() + '. $2');
-        link.attr('href', href.toString())
-    }
+    links.forEach(function (link) {
+        var href = new URL(link.href);
+        href.search = "test"
+        link.href = href.toString()
+    })
 }
 
 (function ($) {
     $(document).ready(function () {
         trackUser();
-
-        markWhatsAppMessage();
 
         $(".phone-mask").mask("+9 (999) 999-99-99", {placeholder: "+_ (___) ___-__-__"});
 
