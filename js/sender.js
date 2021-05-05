@@ -144,6 +144,7 @@ function trackUser() {
             var data = {
                 uid: getUserId(),
                 url: document.location.href,
+                roistat_id: getCookie('roistat_visit')
             };
             var counter = getYaMetricaCounter();
 
