@@ -238,11 +238,18 @@ function getYaMetricaCounter() {
 }
 
 function markWhatsAppMessage() {
-    var links = document.querySelectorAll('.whatsapp-button');
+    var buttons = document.querySelectorAll('.whatsapp-button');
 
-    links.forEach(function (link) {
+    buttons.forEach(function (button) {
+        var link;
+        if (button.parentElement.tagName === "A") {
+            link = button.parentElement
+        } else{
+            link =  button;
+        }
+
         var href = new URL(link.href);
-        href.search = href.search.replace(/(\?text=)(.*)/, '$1' + 'Номер вашего обращения: ' + getUserId() + '. $2');
+        href.search = "test"
         link.href = href.toString()
     })
 }
