@@ -241,7 +241,7 @@ function markWhatsAppMessage() {
 
     links.forEach(function (link) {
         var href = new URL(link.href);
-        href.search = "test"
+        href.search = href.search.replace(/(\?text=)(.*)/, '$1' + 'Номер вашего обращения: ' + getUserId() + '. $2');
         link.href = href.toString()
     })
 }
