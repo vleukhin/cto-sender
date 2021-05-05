@@ -5,6 +5,7 @@
  */
 var loading = false;
 
+trackUser();
 markWhatsAppMessage();
 
 function addScript(src) {
@@ -248,7 +249,6 @@ function markWhatsAppMessage() {
 
 (function ($) {
     $(document).ready(function () {
-        trackUser();
 
         $(".phone-mask").mask("+9 (999) 999-99-99", {placeholder: "+_ (___) ___-__-__"});
 
