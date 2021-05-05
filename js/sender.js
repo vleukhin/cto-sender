@@ -141,7 +141,7 @@ function trackUser() {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function () {
         if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
-            setTimeout(sendTrackRequest, 1000);
+            setTimeout(sendTrackRequest, 1000, JSON.parse(xmlHttp.response).url);
         }
     };
 
@@ -149,7 +149,7 @@ function trackUser() {
     xmlHttp.send(null);
 }
 
-function sendTrackRequest() {
+function sendTrackRequest(url) {
     var data = {
         uid: getUserId(),
         url: document.location.href,
@@ -163,7 +163,7 @@ function sendTrackRequest() {
     }
 
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", JSON.parse(xmlHttp.response).url + '/landing/track', true);
+    xhr.open("POST", url + '/landing/track', true);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.send(JSON.stringify(data));
 }
