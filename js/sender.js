@@ -141,28 +141,33 @@ function trackUser() {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function () {
         if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
-            var data = {
-                uid: getUserId(),
-                url: document.location.href,
-                roistat_id: getCookie('roistat_visit')
-            };
-            var counter = getYaMetricaCounter();
-
-            if (counter) {
-                data['ya_client_id'] = counter.getClientID();
-                data['ya_counter_id'] = Ya._metrika.getCounters()[0].id;
-            }
-
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", JSON.parse(xmlHttp.response).url + '/landing/track', true);
-            xhr.setRequestHeader('Content-Type', 'application/json');
-            xhr.send(JSON.stringify(data));
+            setTimeout(sendTrackRequest, 1000);
         }
     };
 
     xmlHttp.open("GET", '/sender/collector.php');
     xmlHttp.send(null);
 }
+
+function sendTrackRequest() {
+    var data = {
+        uid: getUserId(),
+        url: document.location.href,
+        roistat_id: getCookie('roistat_visit')
+    };
+    var counter = getYaMetricaCounter();
+
+    if (counter) {
+        data['ya_client_id'] = counter.getClientID();
+        data['ya_counter_id'] = Ya._metrika.getCounters()[0].id;
+    }
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", JSON.parse(xmlHttp.response).url + '/landing/track', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify(data));
+}
+
 
 function generateUserId() {
     var S4 = function () {
