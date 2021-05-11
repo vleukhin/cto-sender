@@ -73,7 +73,7 @@ function collect(form, delay) {
             formId: form.attr('id'),
             formData: form.serializeArray(),
             delay: delay,
-            roistat_id: getCookie('roistat_visit'),
+            roistat_id: getRoistatId(),
             ua: window.navigator.userAgent
         };
 
@@ -150,7 +150,7 @@ function getRoistatId() {
         return window.roistat.getVisit();
     }
 
-    return null;
+    return getCookie('roistat_visit');
 }
 
 function trackUser() {
