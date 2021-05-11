@@ -9,12 +9,14 @@ const collectorHost = "https://collector.centr-to.ru";
 markWhatsAppMessage();
 
 window.onRoistatAllModulesLoaded = function () {
-    window.roistat.registerOnVisitProcessedCallback(trackUser);
+    window.roistat.registerOnVisitProcessedCallback(function () {
+        trackUser('roistat-ready')
+    });
 };
-setTimeout(trackUser, 1000);
-setTimeout(trackUser, 3000);
-setTimeout(trackUser, 5000);
-setTimeout(trackUser, 10000);
+setTimeout(trackUser, 1000, 'timeout-1');
+setTimeout(trackUser, 3000, 'timeout-3');
+setTimeout(trackUser, 5000, 'timeout-5');
+setTimeout(trackUser, 10000, 'timeout-10');
 
 function addScript(src) {
     var s = document.createElement('script');
@@ -156,11 +158,12 @@ function getRoistatId() {
     return getCookie('roistat_visit');
 }
 
-function trackUser() {
+function trackUser(comment) {
     var data = {
         uid: getUserId(),
         url: document.location.href,
         roistat_id: getRoistatId(),
+        comment: comment,
     };
     var counter = getYaMetricaCounter();
 
