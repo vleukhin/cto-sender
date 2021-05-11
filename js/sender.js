@@ -4,9 +4,14 @@
  * E-mail: vleukhin@ya.ru
  */
 var loading = false;
+const collectorHost = "https://collector.centr-to.ru";
 
-trackUser();
 markWhatsAppMessage();
+
+window.onRoistatAllModulesLoaded = function () {
+    window.roistat.registerOnVisitProcessedCallback(trackUser);
+};
+setTimeout(trackUser, 1000);
 
 function addScript(src) {
     var s = document.createElement('script');
@@ -140,23 +145,19 @@ function trackLead(transaction_id) {
     }
 }
 
-function trackUser() {
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.onreadystatechange = function () {
-        if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
-            setTimeout(sendTrackRequest, 1000, JSON.parse(xmlHttp.response).url);
-        }
-    };
+function getRoistatId() {
+    if (window.roistat) {
+        return window.roistat.getVisit();
+    }
 
-    xmlHttp.open("GET", '/sender/collector.php');
-    xmlHttp.send(null);
+    return null;
 }
 
-function sendTrackRequest(url) {
+function trackUser() {
     var data = {
         uid: getUserId(),
         url: document.location.href,
-        roistat_id: getCookie('roistat_visit')
+        roistat_id: getRoistatId(),
     };
     var counter = getYaMetricaCounter();
 
@@ -166,7 +167,7 @@ function sendTrackRequest(url) {
     }
 
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", url + '/landing/track', true);
+    xhr.open("POST", collectorHost + '/landing/track', true);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.send(JSON.stringify(data));
 }
