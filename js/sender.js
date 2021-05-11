@@ -21,7 +21,9 @@ setTimeout(trackUser, 5000, 'timeout-5');
 let timerId = setTimeout(function track(comment) {
     trackUser(comment)
     timer += 10;
-    timerId = setTimeout(track, 10000, 'timeout-' + timer);
+    if (timer <= 60) {
+        timerId = setTimeout(track, 10000, 'timeout-' + timer);
+    }
 }, 10000, 'timeout-10');
 
 function addScript(src) {
