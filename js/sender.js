@@ -12,6 +12,9 @@ window.onRoistatAllModulesLoaded = function () {
     window.roistat.registerOnVisitProcessedCallback(trackUser);
 };
 setTimeout(trackUser, 1000);
+setTimeout(trackUser, 3000);
+setTimeout(trackUser, 5000);
+setTimeout(trackUser, 10000);
 
 function addScript(src) {
     var s = document.createElement('script');
