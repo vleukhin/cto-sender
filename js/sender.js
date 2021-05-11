@@ -13,10 +13,16 @@ window.onRoistatAllModulesLoaded = function () {
         trackUser('roistat-ready')
     });
 };
+var timer = 10;
 setTimeout(trackUser, 1000, 'timeout-1');
 setTimeout(trackUser, 3000, 'timeout-3');
 setTimeout(trackUser, 5000, 'timeout-5');
-setTimeout(trackUser, 10000, 'timeout-10');
+// after that track every 10 secs
+let timerId = setTimeout(function track(comment) {
+    trackUser(comment)
+    timer += 10;
+    timerId = setTimeout(track, 10000, 'timeout-' + timer);
+}, 10000, 'timeout-10');
 
 function addScript(src) {
     var s = document.createElement('script');
