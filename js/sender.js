@@ -15,12 +15,11 @@ window.onRoistatAllModulesLoaded = function () {
 };
 var timer = 10;
 setTimeout(trackUser, 1000, 'timeout-1');
-setTimeout(trackUser, 3000, 'timeout-3');
 setTimeout(trackUser, 5000, 'timeout-5');
-// after that track every 10 secs
+// after that track every 20 secs
 let timerId = setTimeout(function track(comment) {
     trackUser(comment)
-    timer += 10;
+    timer += 20;
     if (timer <= 60) {
         timerId = setTimeout(track, 10000, 'timeout-' + timer);
     }

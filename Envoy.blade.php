@@ -41,6 +41,8 @@
             'стапель.оборудование5.рф' => 'subdomains/xn--80aksoig8e/httpdocs',
             'подъемник.оборудование5.рф' => 'subdomains/xn--d1acjiigdh5h/httpdocs',
             'правка-дисков.оборудование5.рф' => 'subdomains/xn----7sbahcl2ame4bcmu/httpdocs',
+            'компрессор.оборудование5.рф' => 'subdomains/xn--e1ajghcehcha/httpdocs',
+            'заправка-кондиционера.оборудование5.рф' => 'subdomains/xn----7sbaabjqilqatc6bdlegto5j/httpdocs',
         ],
     ];
 @endsetup
